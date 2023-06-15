@@ -167,7 +167,9 @@ To deploy this API, we need use some services in the Cloud (for this, we deploy 
 
 ## 3. Database
 
-![Image](https://github.com/Azhar275/API-EmergenZ/blob/main/Images/database.png "Database Diagram")
+<p align="center">
+  <img src="https://github.com/Azhar275/API-EmergenZ/blob/main/Images/database.png" />
+</p>
 
 The database consists of 4 tables :
 - `account` table. It is used to store user account information, like email and password. it has 4 fields:
