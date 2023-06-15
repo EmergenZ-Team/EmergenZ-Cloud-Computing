@@ -40,7 +40,7 @@ router.post("/add_detail_user", authenticateToken, multer.single('image'), (req,
             res.status(500).send({error: true, message: err.sqlMessage})
         } else{
             imgUpload.uploadToGcs(req, res)
-            res.status(200).send({error: false, message: `Data ${name} telah dimasukkan`, link: imageUrl})
+            res.status(200).send({error: false, message: `${name} data has been created`, link: imageUrl})
         }
     })
 })
@@ -48,9 +48,9 @@ router.post("/add_detail_user", authenticateToken, multer.single('image'), (req,
 function authenticateToken(req, res, next){
     const autHeader = req.headers['authorization']
     const token = autHeader && autHeader.split(' ')[1]
-    if(token == null) return res.status(500).send({message: "Token tidak ada"})
+    if(token == null) return res.status(500).send({message: "Token not exist"})
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-        if(err) return res.status(500).send({message: "Token tidak sesuai"})
+        if(err) return res.status(500).send({message: "Token not valid"})
         req.user = user
         next()
         }
@@ -64,12 +64,12 @@ router.get("/user_data/:email", authenticateToken, (req, res) => {
         if(err){
             res.status(500).send({error: true, message: err.sqlMessage})
         } else if(rows.length == 0){
-            res.status(500).send({error: true, message: `Data ${email} tidak ditemukan`})
+            res.status(500).send({error: true, message: `${email} not found`})
         }
         else{
             res.status(200).send({
                 error: false, 
-                message: `Data ${email} ditemukan`,
+                message: `${email} found`,
                 data: {
                     email: rows[0].email, 
                     name: rows[0].name, 
@@ -125,7 +125,7 @@ router.get("/news/:email", authenticateToken, (req, res) => {
                     }else{
                         return res.status(200).send({
                             error: false, 
-                            message: `Data berita untuk ${email}`,
+                            message: `News for ${email}`,
                             data: rows2
                         })
                     }
@@ -185,7 +185,7 @@ router.get("/news/:email", authenticateToken, (req, res) => {
                             }else{
                                 return res.status(200).send({
                                     error: false, 
-                                    message: `Data berita untuk ${email}`,
+                                    message: `News for ${email}`,
                                     data: rows2
                                 })
                             }
@@ -222,7 +222,7 @@ router.post("/news/:news_id", authenticateToken, (req, res) => {
         }else{
             res.status(200).send({
                 error: false, 
-                message: `History telah ditambahkan dan pengambilan berita sukses`,
+                message: `New history record added and news retrieved`,
                 data: rows[1]
             })
         }
@@ -237,7 +237,7 @@ router.get("/all_news", authenticateToken, (req, res) => {
         }else{
             res.status(200).send({
                 error: false, 
-                message: `Pengambilan berita sukses`,
+                message: `All news retrieved`,
                 data: rows
             })
         }
@@ -247,19 +247,19 @@ router.get("/all_news", authenticateToken, (req, res) => {
 router.post("/register", async(req, res) => {
     const {email, username, password} = req.body
     if(password.length < 8){
-        return res.status(500).send({error: true, message: "Password minimal terdiri atas 8 karakter"})
+        return res.status(500).send({error: true, message: "Password at least 8 characters"})
     }
     const query = "INSERT INTO account(user_id, email, username, password) values(CONCAT('user-', md5(?)), ?, ?, ?)"
     const hash = await bcrypt.hash(password, 10)
     con.query(query, [email, email, username, hash], (err, rows, field) => {
         if(err){
             if(err.code === "ER_DUP_ENTRY"){
-                res.status(500).send({error: true, message: "Email sudah terdaftar"})
+                res.status(500).send({error: true, message: "Email already exists"})
             } else{
                 res.status(500).send({error: true, message: err.sqlMessage})
             }
         } else{
-            res.status(200).send({error: false, message: `Data ${username} telah dimasukkan`})
+            res.status(200).send({error: false, message: `User created`})
         }
     })
 })
@@ -271,7 +271,7 @@ router.post("/login", (req, res) => {
         if(err){
             res.status(500).send({error: true, message: err.sqlMessage})
         } else if(rows.length == 0){
-            res.status(500).send({error: true, message: "Data tidak ditemukan"})
+            res.status(500).send({error: true, message: "Email not found"})
         } else{
             console.log(rows[0].password)
             const isMatch = await bcrypt.compare(password, rows[0].password)
@@ -280,7 +280,7 @@ router.post("/login", (req, res) => {
                 const access_token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
                 res.status(200).send({
                     error: false, 
-                    message: `Login ${email} berhasil`,
+                    message: `${email} login success`,
                     data: {
                         user_id: rows[0].user_id,
                         email: rows[0].email,
@@ -289,7 +289,7 @@ router.post("/login", (req, res) => {
                     }
                 })
             } else{
-                res.status(200).send({error: true, message: `Password Salah`})
+                res.status(200).send({error: true, message: `Wrong password`})
             }
         }
     })
