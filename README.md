@@ -1,5 +1,11 @@
 # API-EmergenZ
 
+These are all the APIs that will be used in the EmergenZ app project. The API is made to run these functions :
+- Handle register and login for user
+- Handle user profile data in the app
+- Handle the news/article in the app
+- Handle the news recommendation for users based on what they have read.
+
 ## **1. List API**
 
 ### Register API
@@ -140,7 +146,7 @@ Request Body:
 Response:
 {
     "error": false,
-    "message": "New history record added and news retrieved",
+    "message": "News history record added and news retrieved",
     "data": 
     [
         {
