@@ -165,7 +165,10 @@ To deploy this API, we need use some services in the Cloud (for this, we deploy 
 - `Cloud Storage`. This service will be used to store all image related to the app, such as user image and news image. You can check it in [here](https://cloud.google.com/storage/docs/introduction)
 
 
-## 3. Database Architecture
+## 3. Database
+
+![Image](https://github.com/Azhar275/API-EmergenZ/blob/main/Images/database.png "Database Diagram")
+
 The database consists of 4 tables :
 - `account` table. It is used to store user account information, like email and password. it has 4 fields:
   - user_id VARCHAR(255)
