@@ -238,10 +238,53 @@ create table news(
 
 
 ## 4. Cloud Architecture
-TBA
+The app architecture in the cloud will be like this :
+
+![Image](https://github.com/Azhar275/API-EmergenZ/blob/main/Images/cloud.png "Cloud Architecture Image")
 
 
 
-## 5. How to Deploy
-TBA
+## 5. How to Run The App
+
+
+### 5.1 Create the cloud storage bucket
+This bucket will be used to save the image that has been uploaded by the user.
+1. Open your Google Cloud console
+2. Go to cloud storage and make a storage bucket
+3. Make sure the bucket is accessible through the internet so we won't have problem when we want to get the image
+4. Make a service account in IAM that has permission to store file in the bucket
+5. Make a key for the service account and then store it as json. The key will be used in the node.js 
+
+### 5.2 Run the Node.js app
+
+1. Make sure you already install the Node.js.
+2. Create the project using `npm init` inside the project directory.
+3. run `npm install <package name>` for these package:
+   - @google-cloud/storage
+   - bcrypt
+   - body-parser
+   - dotenv
+   - express
+   - jsonwebtoken
+   - multer
+   - mysql
+   - nodemon (optional)
+4. Make the `server.js` and `routes.js` for the app. You can see the example in this repository.
+5. Make a javascript code to handle the image upload. You can see the example in the `imgUpload.js` in folder modules in this repository.
+6. Don't forget to add the service account key and `.env` file to the Node.js project. The service account will be used to upload the image and the `.env` will be used to store access token for the authorization.
+7. After finished, we can add `"start"` script in the package.json. The script will be like this `"start": "node server.js"`.
+8. Now we can run the app by using command `npm run start`.
+
+
+### 5.3 Run the Flask app
+Flask will be used to deploy the machine learning model that give us the news recommendation for the user.
+1. Make sure you already install Flask in your computer. You can see how to do it [here](https://flask.palletsprojects.com/en/2.3.x/installation/).
+2. After that, create the python file as the main app for the project. We can called it `main.py`.
+3. We also need to install Tensorflow and nltk. We can do this by using `pip install tensorflow` and `pip install nltk`.
+4. After that, we need to download stopwords for the text processsing inside the app. We can download it from the code, for example `nltk.download('popular')`, or download it manually from [here](https://www.nltk.org/nltk_data/) and then store it inside a folder name nltk.
+5. We also need to store the keywords that will be used in the text processing. The keywords can be stored inside a python file, like `keywords.py`, and then to use it we only need to import it.
+6. Inside the `main.py`, we can create the route or url for the API. You can see the example in the API-Flask folder.
+7. After finished, we can run the app by using `flask --app <python file> run` command. For example, if the file called main, then the command will be `flask --app main run`
+
+
 
