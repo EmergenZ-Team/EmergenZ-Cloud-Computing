@@ -248,10 +248,16 @@ create table news(
 ```
 
 
-## 4. Cloud Architecture
+## 4. Cloud Architecture and Workflow
 The app architecture in the cloud will be like this :
 
 ![Image](https://github.com/Azhar275/API-EmergenZ/blob/main/Images/cloud.png "Cloud Architecture Image")
+
+### Workflow
+- Register: User register account with API &rarr; save the account data in Cloud SQL &rarr; User send the profile data &rarr; ID (KTP) image stored in Cloud SQL &rarr; user profile stored in Cloud SQL.
+- Login: User input email and password &rarr; the Cloud SQL will check the email if exist &rarr; the App Engine will validate if the password is right &rarr; If right, the user will be directed to homepage.
+- News Recommendation: User login &rarr; the cloud SQL will collect the user news history &rarr; App Engine will send it to the Cloud Run to get the user news recommendation &rarr; Cloud Run response with the recommendation &rarr; App Engine sends it to Cloud SQL to find the recommended news &rarr; app engine will send the news back to user.
+- Access news : User click on news &rarr; New record will be added to news access history &rarr;Cloud SQL send the news content to App Engine &rarr; The App Engine will sends the content back to user.
 
 
 
